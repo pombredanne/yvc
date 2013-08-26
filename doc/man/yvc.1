@@ -1,6 +1,7 @@
 .\"	Copyright (c) 2008,2009,2010 Yahoo! Inc.
+.\"	Copyright (c) 2011, 2012 Jan Schaumann <jschauma@netmeister.org>
 .\"
-.Dd September 30, 2010
+.Dd May 22, 2012
 .Dt YVC 1
 .Os
 .Sh NAME
@@ -60,6 +61,7 @@ exploit, and an Internet address for further information:
 .Aq package pattern
 .Aq type
 .Aq url
+.Aq severity
 .El
 .Pp
 The type of exploit can be any text, although
@@ -135,6 +137,12 @@ weak-encryption
 weak-ssl-authentication
 .El
 .Pp
+The severity of the vulnerability is an optional free-form field that an
+organization may use to further classify the vulnerability.
+For example, one might choose to assign a vulnerability a severity level
+indicating the impact and required resolution according to internal
+security procedures and requirements.
+.Pp
 The list of vulnerabilities is stored per default in two files under
 /usr/local/var/yvc/.
 .Sh CONFIGURATION
@@ -168,9 +176,16 @@ To check all rpms on the host
 ssh hostname.yahoo.com "rpm -qa" | yvc
 .Ed
 .Sh EXIT STATUS
-.Ex -std
+.Nm
+returns zero if no errors were encountered and no vulnerabilities were
+found.
+If any vulnerabilities were found,
+.Nm
+will return an exit status of '2'.
+.Pp
+An exit status of '1' indicates some sort of unexpected error.
 .Sh FILES
-.Bl -tag -width _home_y_var_yvc_nbvlist_
+.Bl -tag -width _usr_local_var_yvc_rh6vlist__
 .It /usr/local/etc/yvc.conf
 The
 .Nm
@@ -186,6 +201,9 @@ A list of vulnerabilities known in RHEL4, derived from
 http://www.redhat.com/security/data/oval/com.redhat.rhsa-all.xml.bz2 .
 .It /usr/local/var/yvc/rh5vlist
 A list of vulnerabilities known in RHEL5, derived from
+http://www.redhat.com/security/data/oval/com.redhat.rhsa-all.xml.bz2 .
+.It /usr/local/var/yvc/rh6vlist
+A list of vulnerabilities known in RHEL6, derived from
 http://www.redhat.com/security/data/oval/com.redhat.rhsa-all.xml.bz2 .
 .El
 .Sh SEE ALSO

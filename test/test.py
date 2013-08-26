@@ -8,7 +8,7 @@
 # A unittest for functionality in yvc.py.
 
 import sys
-sys.path.append("../lib/")
+sys.path.append("../yahoo/")
 
 from distutils.version import LooseVersion
 import ConfigParser
@@ -99,6 +99,15 @@ class TestYvc(unittest.TestCase):
         self.assertEqual("cfengine<1.5.3nb3", v.pattern)
         self.assertEqual("remote-root-shell", v.type)
         self.assertEqual("ftp://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2000-013.txt.asc", v.url)
+        self.assertEqual(None, v.severity)
+
+        # round two: now with a 'severity'
+        v = self.yvc.makeV("cfengine<1.5.3nb3       remote-root-shell ftp://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2000-013.txt.asc S1")
+        self.assertEqual("cfengine<1.5.3nb3", v.pattern)
+        self.assertEqual("remote-root-shell", v.type)
+        self.assertEqual("ftp://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2000-013.txt.asc", v.url)
+        self.assertEqual("S1", v.severity)
+
 
     def testMakeCommentV(self):
         v = self.yvc.makeV("# a comment of some sort")
